@@ -1,6 +1,6 @@
 # CRUD Operations 
 
-## 🟢 CREATE
+## CREATE
 ```python
 from bookshelf.models import Book
 
