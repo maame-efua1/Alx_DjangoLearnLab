@@ -5,7 +5,10 @@ from .models import Book, Library
 # Function-based view to list all books
 def list_books(request):
     books = Book.objects.all()
-    return render(request, 'list_books.html', {'books': books})
+    output = "List of Books:\n"
+    for book in books:
+        output += f"{book.title} by {book.author.name}\n"
+    return HttpResponse(output, content_type="text/plain")
 
 # Class-based view for library details
 class LibraryDetailView(DetailView):
