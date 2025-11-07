@@ -6,6 +6,9 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.shortcuts import render
+from django.shortcuts import redirect
+
 
 # Function-based view to list all books
 def list_books(request):
@@ -28,13 +31,13 @@ class LibraryDetailView(DetailView):
     
  
 
-# 🔹 Signup view (uses Django's built-in UserCreationForm)
-class RegisterView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')  # redirect to login page after signup
-    template_name = 'relationship_app/register.html'  # your template path
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return super().form_valid(form)
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})   
