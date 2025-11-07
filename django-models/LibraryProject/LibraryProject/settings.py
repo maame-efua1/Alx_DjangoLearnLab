@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'bookshelf',
     'relationship_app',
 ]
+LOGIN_REDIRECT_URL = '/books/'
+LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_URL = 'login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -122,3 +125,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

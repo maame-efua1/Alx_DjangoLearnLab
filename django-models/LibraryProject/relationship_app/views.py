@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from .models import Book 
 from .models import Library
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 # Function-based view to list all books
 def list_books(request):
@@ -21,4 +24,11 @@ class LibraryDetailView(DetailView):
         # Add books that belong to this library
         context['books'] = self.object.book_set.all()
         return context
+    
+ 
 
+# 🔹 Signup view (uses Django's built-in UserCreationForm)
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')  # redirect to login page after signup
+    template_name = 'relationship_app/register.html'  # your template path
