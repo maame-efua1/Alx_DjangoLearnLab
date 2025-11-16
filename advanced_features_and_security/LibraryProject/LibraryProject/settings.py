@@ -143,7 +143,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True # X-Content-Type-Options: nosniff
 X_FRAME_OPTIONS = 'DENY'           # prevent clickjacking (or 'SAMEORIGIN' if needed)
 
 # HSTS (HTTP Strict Transport Security) — enable only when you have HTTPS
-SECURE_HSTS_SECONDS = 3600         # increase in production to e.g. 2592000 (30 days)
+SECURE_HSTS_SECONDS = 31536000           # increase in production to e.g. 2592000 (30 days)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = False        # set True only after verifying
 
@@ -156,4 +156,12 @@ SECURE_SSL_REDIRECT = True
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")  # try avoid unsafe-inline in prod
 CSP_SCRIPT_SRC = ("'self'",)
+
+# Force cookies to have SameSite protection
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+
+# If using Nginx/Heroku/Render behind a proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
