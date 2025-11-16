@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
+from .forms import ExampleForm
 from .forms import BookForm
 from .models import Book
+
 
 @permission_required('relationship_app.can_view', raise_exception=True)
 def book_list(request):
