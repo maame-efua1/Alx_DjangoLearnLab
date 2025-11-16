@@ -35,3 +35,11 @@ def book_delete(request, pk):
         book.delete()
         return redirect('book_list')
     return render(request, 'relationship_app/book_confirm_delete.html', {'book': book})
+
+def book_search(request):
+    q = request.GET.get('q', '').strip()
+    # validate length, characters if needed
+    if len(q) > 100:
+        q = q[:100]
+    results = Book.objects.filter(title__icontains=q)  # ORM parameterizes queries
+    return render(request, 'bookshelf/book_list.html', {'books': results})

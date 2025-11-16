@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-kv&f)ji7xvqhh*34dxmu175ck(65&y4zo!3dwmjiw#g&_ad^zu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+    'csp',
 ]
 LOGIN_REDIRECT_URL = '/books/'
 LOGOUT_REDIRECT_URL = '/login/'
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -129,4 +131,29 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Cookies
+SESSION_COOKIE_SECURE = True    # send session cookie only over HTTPS
+CSRF_COOKIE_SECURE = True       # send CSRF cookie only over HTTPS
+SESSION_COOKIE_HTTPONLY = True  # JS can't read the session cookie
+CSRF_COOKIE_HTTPONLY = False    # usually False; leave default unless you handle tokens differently
+
+# Browser protections
+SECURE_BROWSER_XSS_FILTER = True    # X-XSS-Protection header
+SECURE_CONTENT_TYPE_NOSNIFF = True # X-Content-Type-Options: nosniff
+X_FRAME_OPTIONS = 'DENY'           # prevent clickjacking (or 'SAMEORIGIN' if needed)
+
+# HSTS (HTTP Strict Transport Security) — enable only when you have HTTPS
+SECURE_HSTS_SECONDS = 3600         # increase in production to e.g. 2592000 (30 days)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = False        # set True only after verifying
+
+# Redirect HTTP -> HTTPS (enable on production with HTTPS)
+SECURE_SSL_REDIRECT = True
+
+# Content Security Policy — if using django-csp (optional)
+# INSTALLED_APPS must include 'csp' if you use django-csp
+# Example CSP policy (tune as needed)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")  # try avoid unsafe-inline in prod
+CSP_SCRIPT_SRC = ("'self'",)
 
