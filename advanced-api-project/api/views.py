@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework import filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .models import Book
 from .serializers import BookSerializer
@@ -14,8 +15,18 @@ class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]  # Anyone can view
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
+# 🔥 Add Filtering, Searching, Ordering
+    
+    # Filter by exact match fields
+    filterset_fields = ['title', 'author__name', 'publication_year']
 
+    # Search in text fields (case-insensitive)
+    search_fields = ['title', 'author__name']
+
+    # Ordering options
+    ordering_fields = ['title', 'publication_year']
 
 # 2. DETAIL VIEW (GET one book)
 
@@ -60,19 +71,4 @@ class BookDeleteView(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
 
- # 🔥 Add Filtering, Searching, Ordering
-    filter_backends = [
-        DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter
-    ]
-
-    # Filter by exact match fields
-    filterset_fields = ['title', 'author', 'publication_year']
-
-    # Search in text fields (case-insensitive)
-    search_fields = ['title', 'author__name']
-
-    # Ordering options
-    ordering_fields = ['title', 'publication_year']
-    ordering = ['title']  # default ordering
+ 
