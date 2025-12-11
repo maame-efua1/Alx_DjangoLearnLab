@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+  <h2>Your Profile</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+
+  {% if user.profile.profile_photo %}
+    <img src="{{ user.profile.profile_photo.url }}" alt="Profile photo" width="120">
+  {% endif %}
+{% endblock %}

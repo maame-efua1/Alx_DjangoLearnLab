@@ -130,3 +130,11 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# settings.py
+LOGIN_REDIRECT_URL = '/'         # where to go after login
+LOGOUT_REDIRECT_URL = '/'        # where to go after logout
+LOGIN_URL = '/login/'            # default login URL
+
+# if you use profile ImageField:
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
